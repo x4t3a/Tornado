@@ -19,58 +19,51 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
+    return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Home!</Text>
+        </View>
+    );
 }
 
 function FeedScreen() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    
-//    const api_token = "08de80d6e74322e9e0cbcfec3d53bf8d9b49269a4b45e8ff3b24c365f7cc7e4e1ddcb65819e601ae3f414";
-//    const api_version = "5.122";
-//
-//    useEffect(() => {
-//        fetch("https://api.vk.com/method/newsfeed.get?access_token=08de80d6e74322e9e0cbcfec3d53bf8d9b49269a4b45e8ff3b24c365f7cc7e4e1ddcb65819e601ae3f414&v=5.122")
-//            .then((response) => response.json())
-//            .then((json) => setData(json))
-//            .catch((error) => console.error(error))
-//            .finally(() => setLoading(false));
-//    }, []);
-  
-  useEffect(() => {
-    fetch('https://reactnative.dev/movies.json')
-      .then((response) => response.json())
-      .then((json) => setData(json.movies))
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
-  }, []);
-    return (
-//        <View style={{ flex: 1, padding: 24 }}>
-//          {isLoading ? <ActivityIndicator/> : (
-//            <FlatList
-//              data={data}
-//              renderItem={({ item }) => (
-//                <Text>{item}</Text>
-//              )}
-//            />
-//          )}
-//        </View>
-<View style={{ flex: 1, padding: 24 }}>
-  {isLoading ? <ActivityIndicator/> : (
-    <FlatList
-      data={data}
-      keyExtractor={({ id }, index) => id}
-      renderItem={({ item }) => (
-        <Text>{item.title}, {item.releaseYear}</Text>
-      )}
-    />
-  )}
-</View>
 
+    // https://oauth.vk.com/authorize?client_id=YOUR_ID_HERE&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=wall,friends&response_type=token&v=5.122&state=hullo
+    const api_token = "heheheh";
+    const api_version = "5.122";
+    const newsfeed_req = `https://api.vk.com/method/newsfeed.get?access_token=${api_token}&v=${api_version}`;
+
+    console.log(newsfeed_req);
+    useEffect(() => {
+        fetch(newsfeed_req)
+            .then((response) => response.json())
+            .then((json) => setData(json.response.items))
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    }, []);
+
+    return (
+        <View style={{ flex: 1, padding: 24 }}>
+            {isLoading ? <ActivityIndicator/> : (
+                <FlatList
+                 data={data}
+                 keyExtractor={ item => String(item.date) + '_' + item.source_id + '_' + item.post_id }
+                 renderItem={({ item }) => (
+                     <Text>
+                         <Text style={{
+                                 textAlign: "center",
+                                 color: "black",
+                                 fontWeight: "bold"
+                               }}
+                           >{String(item.date) + '_' + item.source_id + '_' + item.post_id}</Text>
+                         <Text>{item.text}</Text>
+                     </Text>
+                 )}
+                />
+            )}
+        </View>
     );
 }
 
@@ -87,9 +80,9 @@ const Tab = createBottomTabNavigator();
 const App: () => React$Node = () => {
   return (
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator initialRouteName="🌪">
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Feed" component={FeedScreen} />
+            <Tab.Screen name="🌪" component={FeedScreen} />
             <Tab.Screen name="Settings" component={SettingsScreen} />
           </Tab.Navigator>
         </NavigationContainer>
