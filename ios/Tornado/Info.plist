@@ -53,5 +53,21 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>vk</string>
+        <string>vk-share</string>
+        <string>vkauthorize</string>
+    </array>
+    <key>CFBundleTypeRole</key>
+    <string>Editor</string>
+    <key>CFBundleURLName</key>
+    <string>vk5514471</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+        <string>vk6059559</string>
+    </array>
+    <key>VK_APP_ID</key>
+    <integer>6059559</integer>
 </dict>
 </plist>
